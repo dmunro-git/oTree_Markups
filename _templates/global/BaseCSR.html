@@ -1,0 +1,46 @@
+{% extends "otree/FormPage.html" %}
+{% load staticfiles otree_tags %}
+
+
+{% block global_styles  %}
+<style>
+body {
+    background-color: #f7f7f7;
+/*  background-image: url(
+        "https://nyuad.nyu.edu/content/nyuad/en/home/academics/faculty/nikos-nikiforakis/_jcr_content/column3_1/image/image.3.jpg/1475674295792.jpg");  */
+}
+h1   {font-size: 250%;}
+h2   {font-size: 200%;}
+h3   {font-size: 150%;}
+h4   {font-size: 130%;}
+
+p    {font-size: 125%;}
+li   {font-size: 125%;}
+input[type=text] {
+    padding:25px 15px; 
+    border:20 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size:180%;
+    font-family:'Courier New';
+}
+input[type=submit] {
+    padding:10px 25px; 
+    border:25 none;
+    cursor:pointer;
+    -webkit-border-radius: 50px;
+    border-radius: 50px; 
+    font-size:120%;
+}
+.control-label{
+    font-size: 125%;
+}
+</style>
+{% endblock %}
+
+{% block global_scripts  %}
+<script type="text/javascript">
+document.getElementById('id_user_text').focus()
+</script>
+{% endblock %}

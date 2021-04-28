@@ -1,0 +1,389 @@
+{% extends "global/BaseHotMarkup.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Period {{ player.period_number}} Summary
+{% endblock %}
+
+{% block content %}
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <p>
+                In period {{player.period_number}}, your final score this period is <span name="question" id="id_final_score">...</span>.
+            </p>
+                <p></p>
+            <p></p>
+        </div>
+    </div>
+
+
+<div class="instructions well well-lg">
+    <table class="table">    
+        <tr>
+            <h3>Previous Period Scores</h2>
+        </tr>       
+        <tr>
+            <th><center>Period #</th>
+            <th><center>Score</th>
+        </tr>
+        {% for period in period_scores %}
+        <tr>
+            <td align="center">{{ period.period }}</td>
+                {% if period.period  == player.period_number %}
+                <td align="center"> <span name="question" id="id_final_score_2">...</span> </td>
+                {%else%}
+                <td align="center">{{ period.score|floatformat:"1" }} </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+    
+
+{% if debug %}
+debug mode only:
+    
+<p>
+    {% for period in period_scores %}{% if period.period  == player.period_number %}
+        Period Score: past subperiod scores: {{ period.score|floatformat:"1" }} 
+        PLUS 
+        last subperiod: <span name="question" id="id_last_subperiod_score">...</span>
+
+    {% endif %}{% endfor %}
+</p>
+<p><span name="question" id="id_question7">...</span></p>
+<p><span name="question" id="id_question">...</span></p>
+<p><span name="question" id="id_question2">...</span></p>
+<p><span name="question" id="id_question3">...</span></p>
+<p><span name="question" id="id_question4">...</span></p>
+<p><span name="question" id="id_question5">...</span></p>
+<p><span name="question" id="id_question6">...</span></p>
+
+
+    {% next_button %}
+{% endif %}
+
+<input  class='btn round_payoff-button' 
+        class='form-control' 
+        type="hidden" 
+        name='round_payoff' 
+        id="id_round_payoff" 
+        style=" visibility:hidden;">
+
+<input  class='btn boundary_lo-button' 
+        class='form-control' 
+        type="hidden" 
+        name='boundary_lo' 
+        id="id_boundary_lo" 
+        style=" visibility:hidden;">
+
+<input  class='btn boundary_hi-button' 
+        class='form-control' 
+        type="hidden" 
+        name='boundary_hi' 
+        id="id_boundary_hi" 
+        style=" visibility:hidden;">
+
+<input class="btn btn-primary btn-large btn-primary next-button" type="submit" value="Next"  style=" visibility:hidden;">
+
+
+
+{{ form.errors }}
+
+<script>
+
+var linecolors = ['#d84949', '#4850d8', '#ce48d8', '#5bd848', '#d8d348', '#3bccc2', '#48d8c2', '#d8a848'];
+
+// log payoffs and other info from previous round into otree data
+ $(window).bind("load", function() {
+   log_data();
+});
+
+function log_data(val){
+
+    // calc payoffs in last subperiod
+    // 
+    var plyrs = {{players|json}};
+    var players = [];
+    for (var i=0; i<plyrs.length; i++){
+        players.push({
+            'id':Number(plyrs[i]['id']).toFixed(0),
+            'loc':Number(plyrs[i]['loc']).toFixed(5),
+            'price':Number(plyrs[i]['price']).toFixed(4),
+            'cum_payoff':Number(plyrs[i]['cum_payoff'])
+        });
+    }
+
+    players = payoff_function(players);
+
+
+    // document.getElementsByName('boundary_hi')[0].value = players[{{id_in_group}}-1].boundary_hi;
+    // document.getElementsByName('boundary_lo')[0].value = players[{{id_in_group}}-1].boundary_lo;
+    // document.getElementsByName('round_payoff')[0].value = players[{{id_in_group}}-1].profit;
+
+
+
+};
+
+
+// players is a dict of player loc and prices. 
+// returns full players array, with boundaries,
+function payoff_function(players_sml){
+
+    var n = players_sml.length;
+    var t = Number({{ player.transport_cost|json }});
+    var mc = Number({{ player.mc|json }});
+
+    var players_full = [];
+
+    for(var i=0; i<n; i++) {
+        players_full.push({
+            'id':players_sml[i].id,
+            'loc':players_sml[i].loc,
+            'price':players_sml[i].price,
+            "boundary_lo":0,
+            "boundary_hi":0,
+            "market_share":"",
+            'profit':0,
+            'in_market':true,
+        });
+    }
+
+    // payoff function calc
+
+
+    // Intersections - between 0 and 1
+    var intersections = [];
+    for(var i=0; i<n; i++) {
+        intersections[i] = new Array( 2 * n + 1);
+    }
+    for(var i=0; i<n; i++) {
+        for(var j=0; j<(n-1); j++) {
+
+            
+            intersections[i][(n)] = (i+1);
+
+            // to the left
+            var op = (((n+(i))-(j+1)) % n)+1;
+            intersections[i][(n) - (j+1)] = (((n+(i))-(j+1)) % n)+1;
+            if (i<(op-1)){ 
+                // wrapped around
+                intersections[i][(n-1) - j] = (((t * (Number(players_full[i].loc) + 1.0) + Number(players_full[i].price) + t * (Number(players_full[op-1].loc)) - Number(players_full[op-1].price)) / (2*t))%1).toFixed(5);
+            } else if (i>(op-1)){
+                // just to the left
+                intersections[i][(n-1) - j] = (((t *Number(players_full[i].loc)+Number(players_full[i].price) + t * Number(players_full[op-1].loc) - Number(players_full[op-1].price)) / (2*t))%1).toFixed(5);
+            }
+
+            // to the right
+            var op = (i+1+j)%n;
+            intersections[i][(n+1) + j] = op;
+            if (i<op){ 
+                // just to the right
+                intersections[i][(n) + j + 1] = (((t *Number(players_full[op].loc)+Number(players_full[op].price) + t * Number(players_full[i].loc) - Number(players_full[i].price)) / (2*t))%1).toFixed(5);
+            } else if (i>op){
+                //wrap around
+                intersections[i][(n) + j + 1] = (((t * (Number(players_full[op].loc) + 1.0) + Number(players_full[op].price) + t * Number(players_full[i].loc) - Number(players_full[i].price)) / (2*t))%1).toFixed(5);
+            }
+
+        } 
+    }
+
+    // Intersections - where loc is 0
+    var intersections2 = [];
+    for(var i=0; i<n; i++) {
+        intersections2[i] = new Array( 2 * n + 1);
+    }
+    for(var i=0; i<n; i++) {
+        for(var j=0; j<(n-1); j++) {
+
+            
+            intersections2[i][(n)] = (i+1);
+
+            // to the left
+            var op = (((n+(i))-(j+1)) % n)+1;
+            intersections2[i][(n) - (j+1)] = (((n+(i))-(j+1)) % n)+1;
+
+
+            if (i<(op-1)){ 
+                intersections2[i][(n-1) - j] = (((t * (Number(players_full[i].loc) + 1) + Number(players_full[i].price) + t * (Number(players_full[op-1].loc)) - Number(players_full[op-1].price)) / (2*t)) - (1+Number(players_full[i].loc))).toFixed(5);
+            } else if (i>(op-1)){
+                intersections2[i][(n-1) - j] = (((t *Number(players_full[i].loc)+Number(players_full[i].price) + t * Number(players_full[op-1].loc) - Number(players_full[op-1].price)) / (2*t)) - Number(players_full[i].loc)).toFixed(5);
+            }
+
+            // to the right
+            var op = (i+1+j)%n;
+            intersections2[i][(n+1) + j] = op;
+            if (i<op){ 
+                intersections2[i][(n) + j + 1] = (
+                    (t *Number(players_full[op].loc)+Number(players_full[op].price) + t * Number(players_full[i].loc) - Number(players_full[i].price)) / (2*t) - Number(players_full[i].loc)).toFixed(5);
+            } else if (i>op){
+                intersections2[i][(n) + j + 1] = (
+                    ((t *(Number(players_full[op].loc) + 1)+Number(players_full[op].price) + t * Number(players_full[i].loc) - Number(players_full[i].price)) / (2*t)) - (Number(players_full[i].loc))).toFixed(5);
+            }
+
+        } 
+    }
+
+ 
+    // test is intersections bind market boundaries
+    op_dist = 1/n; //distance between players_full
+    var intersectionstest = [];
+    for(var i=0; i<n; i++) {
+        intersectionstest[i] = new Array( 2 * n + 1);
+    }
+    
+    for(var i=0; i<n; i++) {
+        for(var j=0; j<n; j++) {
+            
+            //go through intersections, keep only binding intersections, internections that create boundries
+            
+            // to the right
+            var op = (i+1+j)%n;
+            if (
+                    ((intersections2[i][(n+1) + j]) <= (op_dist * (1+j)))
+                    && ((intersections2[i][(n+1) + j]) <= .5) // wrap around point (e.g does this player control the full market?)
+                ){
+                intersectionstest[i][(n) + j + 1] = true;
+            } else {
+                intersectionstest[i][(n) + j + 1] = false;
+            }
+
+            // to the left
+            op = (((n+(i))-(j+1)) % n)+1;
+            if (
+                    ((intersections2[i][(n-1) - j]) >= (-1*(op_dist * (1+j))))
+                    && ((intersections2[i][(n-1) - j]) >= -.5) // wrap around point
+                ){
+                intersectionstest[i][(n-1) - j] = true;
+            } else {
+                intersectionstest[i][(n-1) - j] = false;
+            }
+
+            intersectionstest[i][n] = i+1;
+
+        }
+
+    }
+
+
+    // find market boundaries
+    var boundaries = [];
+    for(var i=0; i<n; i++) {
+        boundaries[i] = new Array(2);
+    }
+
+    // find all excluded players_full
+    var excludedplayers_full = Array(n);
+    for(var i=0; i<n; i++) {
+        for(var j=0; j<n; j++) {
+            if (   ( intersections2[i][(n-1-j)] > 0 && intersections2[i][(n+1+j)] >= 0) 
+                || ( intersections2[i][(n-1-j)] <= 0 && intersections2[i][(n+1+j)] < 0) 
+                || ( intersections2[i][(n-1-j)] >= 0 && intersections2[i][(n+1+j)] <= 0) ){
+                excludedplayers_full[i] = true;
+            }
+        }
+    }
+    
+    for(var i=0; i<n; i++) {
+        if (excludedplayers_full[i] == true){
+        players_full[i].in_market = false;
+        }
+    }
+    
+
+
+    for(var i=0; i<n; i++) {
+        for(var j=0; j<n; j++) {
+
+            // lower boundary // leftway
+            var op = (((n+(i))-(j+1)) % n);
+            if (intersectionstest[i][(n-1) - j] && boundaries[i][0] == null && !excludedplayers_full[op]){
+                boundaries[i][0] = intersections[i][(n-1) - j];
+            }
+            if ((j == (n-1)) && boundaries[i][0] == null){
+                boundaries[i][0] = 0;
+            }
+
+            // upper boundary // rightway
+            var op = (i+1+j)%n;
+            if (intersectionstest[i][(n+1) + j] && boundaries[i][1] == null && !excludedplayers_full[op]){
+                boundaries[i][1] = intersections[i][(n+1) + j];
+            }
+            if ((j == (n-1)) && boundaries[i][1] == null){
+                boundaries[i][1] = 1;
+            }
+        }
+        for(var j=0; j<n; j++) {
+            if (   ( intersections2[i][(n-1-j)] >= 0 && intersections2[i][(n+1+j)] > 0) 
+                || ( intersections2[i][(n-1-j)] < 0 && intersections2[i][(n+1+j)] <= 0) 
+                || ( intersections2[i][(n-1-j)] >= 0 && intersections2[i][(n+1+j)] <= 0) ){
+                boundaries[i][0] = null;
+                boundaries[i][1] = null;
+            }
+        }
+
+    }
+
+    for(var i=0; i<n; i++) {
+        // log market share
+        players_full[i].market_share = 0;
+
+        //log market boundries
+        players_full[i].boundary_lo = (boundaries[i][0]);
+        players_full[i].boundary_hi = (boundaries[i][1]);
+
+        if (players_full[i].boundary_lo != null && players_full[i].boundary_hi != null){
+
+            players_full[i].boundary_lo = Number(players_full[i].boundary_lo);
+            players_full[i].boundary_hi = Number(players_full[i].boundary_hi);
+            players_full[i].loc = Number(players_full[i].loc);
+
+            if (players_full[i].boundary_lo > players_full[i].loc){
+                players_full[i].market_share = players_full[i].market_share + players_full[i].loc + (1 - players_full[i].boundary_lo);
+            } else {
+                players_full[i].market_share = players_full[i].market_share + players_full[i].loc - players_full[i].boundary_lo;
+            }      
+
+            if (players_full[i].boundary_hi < players_full[i].loc){
+                players_full[i].market_share = players_full[i].market_share + (1 - players_full[i].loc) + players_full[i].boundary_hi;
+            } else {
+                players_full[i].market_share = players_full[i].market_share + (players_full[i].boundary_hi - players_full[i].loc);
+            }      
+
+        }
+
+        players_full[i].profit = players_full[i].market_share * (Number(players_full[i].price) - mc)
+
+    }
+
+
+    document.getElementById('id_question').innerHTML = JSON.stringify(intersections);
+    document.getElementById('id_question2').innerHTML = JSON.stringify(intersectionstest);
+    document.getElementById('id_question3').innerHTML = JSON.stringify(intersections2);
+    document.getElementById('id_question4').innerHTML = JSON.stringify(boundaries);
+    document.getElementById('id_question5').innerHTML = JSON.stringify(excludedplayers_full);
+    document.getElementById('id_question7').innerHTML = JSON.stringify(players_sml);
+    document.getElementById('id_question6').innerHTML = JSON.stringify(players_full);
+
+    var final_score = players_full[({{player.id_in_group}} - 1)].profit;
+    document.getElementById('id_last_subperiod_score').innerHTML = (final_score*100).toFixed(3);
+    final_score = final_score + players_sml[({{player.id_in_group}} - 1)].cum_payoff;
+    final_score = (final_score * 100).toFixed(2)
+
+    document.getElementById('id_final_score').innerHTML = (final_score);
+    document.getElementById('id_final_score_2').innerHTML = (final_score);
+
+    document.getElementsByName('round_payoff')[0].value = players_full[({{player.id_in_group}} - 1)].profit;
+    document.getElementsByName('boundary_lo')[0].value = Number(players_full[({{player.id_in_group}} - 1)].boundary_lo);
+    document.getElementsByName('boundary_hi')[0].value = Number(players_full[({{player.id_in_group}} - 1)].boundary_hi);
+
+
+
+    return players_full;
+}
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,91 @@
+Treatment,Players,Round,ID_First_half_round,ID_Second_half_round,RoundDescription,TreatmentDescription
+1,2,1,6,1,Cost Treatment: low to high,Cost Treatment
+1,2,2,4,2,Cost Treatment: medium to high,Cost Treatment
+1,2,3,25,30,Cost Treatment: high to low,Cost Treatment
+1,2,4,28,30,Cost Treatment: medium to low,Cost Treatment
+1,2,5,3,1,Cost Treatment: medium to high,Cost Treatment
+1,2,6,1,6,Cost Treatment: high to low,Cost Treatment
+1,2,7,30,25,Cost Treatment: low to high,Cost Treatment
+1,2,8,3,5,Cost Treatment: medium to low,Cost Treatment
+1,2,9,28,26,Cost Treatment: medium to high,Cost Treatment
+1,2,10,27,25,Cost Treatment: medium to high,Cost Treatment
+1,2,11,27,29,Cost Treatment: medium to low,Cost Treatment
+1,2,12,4,6,Cost Treatment: medium to low,Cost Treatment
+1,2,13,30,25,Cost Treatment: low to high,Cost Treatment
+1,2,14,6,1,Cost Treatment: low to high,Cost Treatment
+1,2,15,25,30,Cost Treatment: high to low,Cost Treatment
+2,2,1,37,40,Shopping Costs: level 1 to level 4,Shopping Cost
+2,2,2,39,38,Shopping Costs: level 3 to level 2,Shopping Cost
+2,2,3,40,38,Shopping Costs: level 4 to 2,Shopping Cost
+2,2,4,40,37,Shopping Costs: level 4 to level 1,Shopping Cost
+2,2,5,39,37,Shopping Costs: level 3 to level 1,Shopping Cost
+2,2,6,39,38,Shopping Costs: level 3 to 2,Shopping Cost
+2,2,7,38,39,Shopping Costs: level 2 to 3,Shopping Cost
+2,2,8,38,37,Shopping Costs: level 2 to level 1,Shopping Cost
+2,2,9,39,40,Shopping Costs: level 3 to level 4,Shopping Cost
+2,2,10,37,38,Shopping Costs: level 1 to 2,Shopping Cost
+2,2,11,38,40,Shopping Costs: level 2 to level 4,Shopping Cost
+2,2,12,40,39,Shopping Costs: level 4 to level 3,Shopping Cost
+2,2,13,37,39,Shopping Costs: level 1 to 3,Shopping Cost
+2,2,14,37,37,Shopping Costs: level 1 to 1 (give longer time for collusion to form),Shopping Cost
+2,2,15,40,40,Shopping Costs: level 4 to 4 (give longer time for collusion to form),Shopping Cost
+3,2,1,30,18,Demand Treatment: high to low,Demand Treatment
+3,2,2,2,26,Demand Treatment: medium to high,Demand Treatment
+3,2,3,13,25,Demand Treatment: low to high,Demand Treatment
+3,2,4,17,29,Demand Treatment: low to high,Demand Treatment
+3,2,5,1,13,Demand Treatment: medium to low,Demand Treatment
+3,2,6,18,30,Demand Treatment: low to high,Demand Treatment
+3,2,7,25,13,Demand Treatment: high to low,Demand Treatment
+3,2,8,29,17,Demand Treatment: high to low,Demand Treatment
+3,2,9,1,25,Demand Treatment: medium to high,Demand Treatment
+3,2,10,26,2,Demand Treatment: high to medium,Demand Treatment
+3,2,11,18,30,Demand Treatment: low to high,Demand Treatment
+3,2,12,25,13,Demand Treatment: high to low,Demand Treatment
+3,2,13,30,18,Demand Treatment: high to low,Demand Treatment
+3,2,14,13,25,Demand Treatment: low to high,Demand Treatment
+3,2,15,1,13,Demand Treatment: medium to low,Demand Treatment
+4,4,1,12,7,Cost Treatment: low to high,Cost Treatment
+4,4,2,10,8,Cost Treatment: medium to high,Cost Treatment
+4,4,3,25,36,Cost Treatment: high to low,Cost Treatment
+4,4,4,28,36,Cost Treatment: medium to low,Cost Treatment
+4,4,5,9,7,Cost Treatment: medium to high,Cost Treatment
+4,4,6,7,12,Cost Treatment: high to low,Cost Treatment
+4,4,7,36,31,Cost Treatment: low to high,Cost Treatment
+4,4,8,9,11,Cost Treatment: medium to low,Cost Treatment
+4,4,9,34,32,Cost Treatment: medium to high,Cost Treatment
+4,4,10,33,31,Cost Treatment: medium to high,Cost Treatment
+4,4,11,33,35,Cost Treatment: medium to low,Cost Treatment
+4,4,12,10,12,Cost Treatment: medium to low,Cost Treatment
+4,4,13,36,31,Cost Treatment: low to high,Cost Treatment
+4,4,14,12,7,Cost Treatment: low to high,Cost Treatment
+4,4,15,31,36,Cost Treatment: high to low,Cost Treatment
+5,4,1,41,44,Shopping Costs: level 1 to level 4,Shopping Cost
+5,4,2,43,42,Shopping Costs: level 3 to level 2,Shopping Cost
+5,4,3,44,42,Shopping Costs: level 4 to 2,Shopping Cost
+5,4,4,44,41,Shopping Costs: level 4 to level 1,Shopping Cost
+5,4,5,43,41,Shopping Costs: level 3 to level 1,Shopping Cost
+5,4,6,43,42,Shopping Costs: level 3 to 2,Shopping Cost
+5,4,7,42,43,Shopping Costs: level 2 to 3,Shopping Cost
+5,4,8,42,41,Shopping Costs: level 2 to level 1,Shopping Cost
+5,4,9,43,44,Shopping Costs: level 3 to level 4,Shopping Cost
+5,4,10,41,42,Shopping Costs: level 1 to 2,Shopping Cost
+5,4,11,42,44,Shopping Costs: level 2 to level 4,Shopping Cost
+5,4,12,44,43,Shopping Costs: level 4 to level 3,Shopping Cost
+5,4,13,41,43,Shopping Costs: level 1 to 3,Shopping Cost
+5,4,14,41,41,Shopping Costs: level 1 to 1 (give longer time for collusion to form),Shopping Cost
+5,4,15,44,44,Shopping Costs: level 4 to 4 (give longer time for collusion to form),Shopping Cost
+6,4,1,36,24,Demand Treatment: high to low,Demand Treatment
+6,4,2,8,32,Demand Treatment: medium to high,Demand Treatment
+6,4,3,19,31,Demand Treatment: low to high,Demand Treatment
+6,4,4,23,35,Demand Treatment: low to high,Demand Treatment
+6,4,5,7,19,Demand Treatment: medium to low,Demand Treatment
+6,4,6,24,36,Demand Treatment: low to high,Demand Treatment
+6,4,7,31,19,Demand Treatment: high to low,Demand Treatment
+6,4,8,35,23,Demand Treatment: high to low,Demand Treatment
+6,4,9,7,31,Demand Treatment: medium to high,Demand Treatment
+6,4,10,32,8,Demand Treatment: high to medium,Demand Treatment
+6,4,11,24,36,Demand Treatment: low to high,Demand Treatment
+6,4,12,31,19,Demand Treatment: high to low,Demand Treatment
+6,4,13,36,24,Demand Treatment: high to low,Demand Treatment
+6,4,14,19,31,Demand Treatment: low to high,Demand Treatment
+6,4,15,7,19,Demand Treatment: medium to low,Demand Treatment

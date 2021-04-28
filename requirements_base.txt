@@ -1,0 +1,5 @@
+otree-core==1.4.0b6
+Django==1.8.8 # for heroku, needs to be explicitly in requirements file
+otree-redwood==0.2.1 # Redwood Websocket library for page events
+txredisapi==1.4.4 # enable Twisted for asgiredis Channel Layer
+django-extensions==1.8.1 # IPython shell with "> otree shell_plus [--notebook]"

@@ -1,0 +1,62 @@
+
+
+{% block content %}
+
+{% load otree_tags staticfiles %}
+
+
+<p>Welcome! You are about to participate in an experiment in the economics of decision making. If you listen carefully and make good decisions, you could receive a considerable sum of money that will be paid to you in cash at the end of the experiment as a transportation and subsistence allowance. </p>
+<p>Please remain silent and do not look at other participants’ screens. If you have any questions, or need assistance of any kind, please raise your hand and we will come to you. Do not attempt to use the computer for any other purpose than what is explicitly required by the experiment. This means you are not allowed to browse the internet, check emails, etc. If you disrupt the experiment by using your phone, talking, laughing, etc., you may be asked to leave and may not be paid. We expect and appreciate your cooperation today. </p>
+<h3>The Basic Idea</h3>
+<p>The experiment will be divided into a number of periods, and each period you will be matched anonymously with 
+  {% if session.config.players_per_group == 2 %} 
+    a counterpart, who is another participant in today’s experiment.
+  {% else %} 
+    counterparts, who are other participants in today’s experiment.  
+  {% endif %} 
+</p>
+<p>
+  Throughout each period you will choose a position within a range of possible positions on a computer screen. The number of points you earn each period will depend on your choice and the choices of your 
+  {% if session.config.players_per_group == 2 %}counterpart{% else %}counterparts{% endif %}. 
+</p>
+
+<p>At the end of the session, <strong>one period</strong> will be randomly selected. The number of points you earned in that period will be converted to AED at a rate shown on the whiteboard, and paid to you in cash as your transportation and subsistence allowance. </p>
+<h3>Periods/Rounds</h3>
+<p>There will be <strong>15 periods</strong> in the experiment and <strong>20</strong> rapid (7-second) <strong>rounds</strong> in each of these periods. During each <strong>period</strong> you will be randomly matched with other people in the room. At the end of each period, you will be matched with new counterparts who may be different participants than in the previous period. </p>
+<h3>Choosing Your Position</h3>
+<p>Figure 1 shows an example of the user interface. Your position, relative to that of your counterpart, will determine your score. You will be able to adjust your position along the y-axis (vertically) only, by clicking on your desired position on the slider. During the 7-second rounds, you and the other players will choose your desired positions simultaneously. The last position you, and the other players, choose at the end of these short rounds will determine your earnings during that round. The positions displayed to you for the other players will only show you the position they chose last round and will not update during the 7-second rounds. </p>
+<h3>How You Earn Points</h3>
+<p>The points you earn in each round are proportional to the size of the action area you control. At the end of each <strong>round</strong> your position relative to the position of the other players will determine the size of the area you control. In addition, the size of the area you control will also depend on your position relative to the two dashed horizontal lines. The points you earn during each round will accumulate across rounds and the “Period score” you see on your screen will indicate the points you have accumulated so far during a period. In Figure 1, your position from the previous <strong>round</strong> is indicated by the blue dot in the box and the other players’ positions are represented by the other dots. You can adjust your position during any round by clicking on the slider on the left side of the box. </p>
+
+<strong><center><p>Figure 1:</strong> Example of User Interface</p></center>
+<center><p><img width="90%" src="{% static fig1_path %}"/></center>
+
+<hr>
+
+<p>Note that the figure also includes lines running away from your position and from your counterpart’s position, as well as a blue shaded area indicating the action area you control above the lower dashed horizontal line. The intersection of your line with your counterpart’s line determines the size of the action area you control, as in Figure 1 above. </p>
+<p>If you choose a position that is below the lower horizontal line, you will earn <strong>negative</strong> points. If this happens, your box will be shaded in <strong>red</strong>. An example of this is plotted in Figure 2 below. </p>
+
+<strong><center><p>Figure 2</strong>: Example of Negative Points</p></center>
+<center><p><img width="90%" src="{% static fig2_path %}"/></center>
+
+<hr>
+
+<p>If your line intersects with the upper dashed horizontal line before it intersects with your counterpart’s line, this intersection will determine the size of the area you control. An example of this scenario is plotted in Figure 3 below. </p>
+<strong><center><p>Figure 3</strong>: Intersecting with Upper Dashed Horizontal Line</p></center>
+<center><p><img width="90%" src="{% static fig3_path %}"/></center>
+
+<hr>
+
+<h3>Frequently asked questions</h3>
+<p>1. Is this some kind of psychological experiment with an agenda you haven’t told us?<br>
+<strong>Answer</strong>: No. It is an economics experiment. If we do anything deceptive or don’t pay you as described then you can complain to the campus Human Subjects Committee and we will be in serious trouble. These instructions are meant to clarify the game and show you how you earn points; our interest is simply in seeing how people make decisions. </p>
+
+<hr>
+<p>Consent Form</p>
+<p>Please sign and date the consent form that is on your desk. </p>
+
+
+
+
+{% endblock %}
+

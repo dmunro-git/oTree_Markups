@@ -1,0 +1,32 @@
+{% extends "global/BaseHotMarkup.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Instructions
+{% endblock %}
+
+{% block content %}
+
+{% load otree_tags staticfiles %}
+{% load staticfiles %}
+
+<div class="instructions well well-lg">
+
+  <div class="panel-heading">
+
+        {% include Constants.instructions_template %}
+
+    </div>
+
+</div>
+
+    {% if debug %}
+      In debug mode only, 
+      {% next_button %}<br><br><br>
+    {% endif %}
+
+
+
+
+{% endblock %}
+

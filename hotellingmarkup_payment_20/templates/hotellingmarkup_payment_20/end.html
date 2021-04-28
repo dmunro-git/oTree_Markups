@@ -1,0 +1,82 @@
+{% extends "global/BaseHotMarkup.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Final Screen
+{% endblock %}
+
+{% block content %}
+
+{% load otree_tags staticfiles %}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Thank you for participating.</h3>
+        <h3>Please review the information below.</h3>
+    </div>
+</div>
+
+
+<div class="panel panel-success">
+
+    <table class="table">           
+        <tr>
+            <th><center>Period Number</th>
+            <th><center>Score</th>
+            <th><center>Paid Period</th>
+        </tr>
+        {% for row in period_scores %}
+
+        {% if row.paid_period %}
+        <tr bgcolor="#CBFCC3">
+            <td><center>{{ row.period }}</td>
+            <td><center>{{ row.score |floatformat:"2"}}</center></td>
+            <td><center> Paid </th>
+        </tr>
+        {% else %} 
+        <tr bgcolor="#F1F1F1">
+            <td><center>{{ row.period }}</td>
+            <td><center>{{ row.score |floatformat:"2"}}</center></td>
+            <td><center> Not Paid </th>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4>Period {{ paid_period }} was randomly selected as your paid period. 
+            <h4>You earned a score of <b>{{ var_pay|floatformat:"2" }} points</b>.
+            <h4>Your experimenter will quote a conversation rate from points to AED from one of the following:</h4>
+            <ul>
+              <li><h5>0.33 points = 1 AED: {{ var_pay_3x|floatformat:"2" }} AED</h4></li>
+              <li><h5>0.5 points = 1 AED: {{ var_pay_2x|floatformat:"2" }} AED</h4></li>
+              <li><h5>1 points = 1 AED: {{ var_pay|floatformat:"2" }} AED</h4></li>
+              <li><h5>2 points = 1 AED: {{ var_pay_div2|floatformat:"2" }} AED</h4></li>
+              <li><h5>3 points = 1 AED: {{ var_pay_div3|floatformat:"2" }} AED</h4></li>
+              <li><h5>4 points = 1 AED: {{ var_pay_div4|floatformat:"2" }} AED</h4></li>
+              <li><h5>5 points = 1 AED: {{ var_pay_div5|floatformat:"2" }} AED</h4></li>
+            </ul>
+            <h4>Be sure to also add your {{participation_fee}} showup fee.
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>1. Please get our your paper reciept.</h3>
+            <h3>2. Fill any information requested on your paper reciept.</h3>
+            <h3>3. For "Amount in AED", add your variable score (at the conversation rate quoted by the experiment) to your showup fee. Please <strong>round up to the nearest 5 AED.</strong> (For example, 101 AED is rounded up to 105, while 100 AED remains 100 AED.) 
+            <h3>4. For the "for the experiment on..." blank space, put today's date.</h3>
+            <h3>5. Please wait until further instructions from the experimenters. (They will pay people individually, and probably call each seat sequentially after verifying the information on your receipt.)</h3>
+        </div>
+    </div>
+
+
+
+
+    {% if debug %}
+      In debug mode only, 
+      {% next_button %}<br><br><br>
+    {% endif %}
+{% endblock %}
+

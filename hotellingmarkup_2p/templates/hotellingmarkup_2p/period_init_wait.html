@@ -1,0 +1,50 @@
+{% extends "global/BaseHotMarkup.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Please wait
+{% endblock %}
+
+{% block content %}
+
+{% load otree_tags staticfiles %}
+
+<div class="instructions well well-lg">
+
+    <h2 class="panel-sub-heading">
+        
+    </h2>
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'global/matrix.css' %}"/>
+
+
+    <h3>
+    Please wait, the period will start shortly. 
+    </h2>
+    
+    <p>
+        <br>
+    </p> 
+
+</div>
+
+        <h4 align="left" ><font color="f7f7f7">
+            shopping cost: {{ player.transport_cost }} <br>
+            my id: {{ player.id_in_group}} - my_loc:{{ player.loc }} - my price: {{player.price}}</font>
+         </h4>
+
+        <h4 align="left" ><font color="f7f7f7">
+        {% for op in players %}
+            id: {{ op.id }} - loc: {{ op.loc|floatformat:'4' }} - price: {{ op.price|floatformat:'4' }}<br>
+
+        {% endfor %}</font>
+         </h4>
+
+{% if debug %}
+debug mode only 
+    {% next_button %}
+{% endif %}
+
+
+{% endblock %}

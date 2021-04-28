@@ -1,0 +1,37 @@
+{% extends "global/BaseHotMarkup.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Introduction
+{% endblock %}
+
+{% block content %}
+
+{% load otree_tags staticfiles %}
+
+<div class="instructions well well-lg">
+
+  <div class="panel-heading">
+
+        <h3>
+            Thank you for participating in this study on economic decision making.
+        </p>
+        <h3>
+            Please read, sign, and return the consent form in front of you and review the instructions. 
+        </p>
+        <p>
+
+    </div>
+
+</div>
+
+    {% if debug %}
+      In debug mode only, 
+      {% next_button %}<br><br><br>
+    {% endif %}
+
+
+
+
+{% endblock %}
+
